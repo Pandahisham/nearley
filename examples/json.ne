@@ -18,6 +18,7 @@ let lexer = moo.compile({
     FALSE: /false\b/,
     NULL: /null\b/,
 })
+function factory() { return lexer.clone() }
 
 var SPACE = {type: 'SPACE'}
 var STRING = {type: 'STRING'}
@@ -27,7 +28,7 @@ var FALSE = {type: 'FALSE'}
 var NULL = {type: 'NULL'}
 %}
 
-@lexer lexer
+@lexer factory
 
 json -> _ (object | array) _ {% function(d) { return d[1][0]; } %}
 

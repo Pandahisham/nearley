@@ -148,10 +148,31 @@ describe("nearleyc", function() {
 
 describe('Parser', function() {
 
-    var tosh = compile(read("examples/tosh.ne"));
+    let testGrammar = compile(`
+    y -> x:+
+    x -> [a-z0-9] | "\\n"
+    `)
+
+    it('shows line number in errors', function() {
+      (() => parse(testGrammar, 'abc\n12!')).should.throw(
+        'no possible parsings at line 2 col 3:\n' +
+        '\n' +
+        '  12!\n' +
+        '    ^'
+      )
+    })
+
+    it('shows token index in errors', function() {
+      (() => parse(testGrammar, ['1', '2', '!'])).should.throw(
+        'no possible parsings at index 2'
+      )
+    })
 
     // TODO: save/restore
+
     /*
+    var tosh = compile(read("examples/tosh.ne"));
+
     it('can rewind', function() {
         let first = "say 'hello'";
         let second = " for 2 secs";
