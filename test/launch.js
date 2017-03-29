@@ -155,7 +155,7 @@ describe('Parser', function() {
 
     it('shows line number in errors', function() {
       (() => parse(testGrammar, 'abc\n12!')).should.throw(
-        'no possible parsings at line 2 col 3:\n' +
+        'invalid syntax at line 2 col 3:\n' +
         '\n' +
         '  12!\n' +
         '    ^'
@@ -164,7 +164,7 @@ describe('Parser', function() {
 
     it('shows token index in errors', function() {
       (() => parse(testGrammar, ['1', '2', '!'])).should.throw(
-        'no possible parsings at index 2'
+        'invalid syntax at index 2'
       )
     })
 
