@@ -284,6 +284,24 @@ welcome here!
 Including a parser imports *all* of the nonterminals defined in the parser, as
 well as any JS, macros, and config options defined there.
 
+### Tokenizers
+
+Use the `@lexer` directive.
+
+TODO
+
+### Custom lexers
+
+You can pass a `lexer` instance to Parser, which must have the following interface:
+
+* `reset(chunk)`: set the internal buffer to `chunk`.
+* `next() -> Token` return e.g. `{type, value, line, col, …}`. Only the `value` attribute is required.
+* `save() -> Info` -> return an object describing the current line/col etc. For rewind() support. The exact structure is lexer-specific; nearley doesn't care what's in it.
+* `restore(Info)`: called with the Info object from `save()` after rewinding, to restore line/col/state info.
+
+If Parser isn't given a lexer option, it will look for a `.lexerFactory` attribute on its Grammar. The `@lexer` directive allows exporting a lexer object from your `.ne` grammar file. (See `json.ne` for an example.)
+
+
 ### Custom tokens
 
 Nearley assumes by default that your fundamental unit of parsing, called a
