@@ -179,10 +179,8 @@ describe('Parser', function() {
         p.table.length.should.equal(12)
         var col = p.save();
         col.index.should.equal(11)
-        col.lexerState.index.should.equal(first.length)
+        col.lexerState.col.should.equal(first.length)
     });
-
-    // TODO: restore state
 
     it('can rewind', function() {
         let first = "say 'hello'";
@@ -207,6 +205,35 @@ describe('Parser', function() {
         p.rewind.should.throw();
     })
 
-    // moo save/restore
+    it('restores line numbers', function() {
+      let p = new nearley.Parser(testGrammar);
+      p.feed('abc\n')
+      p.save().lexerState.line.should.equal(2)
+      p.feed('123\n')
+      var col = p.save();
+      col.lexerState.line.should.equal(3)
+      p.feed('q')
+      p.restore(col);
+      p.lexer.line.should.equal(3)
+      p.feed('z')
+    });
+
+    it('restores column number', function() {
+      let p = new nearley.Parser(testGrammar);
+      p.feed('foo\nbar')
+      var col = p.save();
+      col.lexerState.line.should.equal(2)
+      col.lexerState.col.should.equal(3)
+      p.feed('123');
+      p.lexerState.col.should.equal(6)
+
+      p.restore(col);
+      p.lexerState.line.should.equal(2)
+      p.lexerState.col.should.equal(3)
+      p.feed('456')
+      p.lexerState.col.should.equal(6)
+    });
+
+    // TODO: moo save/restore
 
 });
