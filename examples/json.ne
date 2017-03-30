@@ -19,10 +19,9 @@ let lexer = moo.compile({
     NULL: /null\b/,
 })
 function factory() { return lexer.clone() }
-
-var SPACE = {type: 'SPACE'}
-var STRING = {type: 'STRING'}
-var NUMBER = {type: 'NUMBER'}
+factory.specifier = function(name) {
+  return {type: name}
+}
 %}
 
 @lexer factory
