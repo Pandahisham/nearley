@@ -4,7 +4,7 @@
 // const moo = typeof module === 'object' && module.exports ? require('moo') : moo
 const moo = require('../moo')
 
-let lexer = moo.compile({
+var lexer = moo.compile({
     SPACE: {match: /\s+/, lineBreaks: true},
     NUMBER: /-?(?:[0-9]|[1-9][0-9]+)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?\b/,
     STRING: /"(?:\\["bfnrt\/\\]|\\u[a-fA-F0-9]{4}|[^"\\])*"/,
@@ -19,8 +19,10 @@ let lexer = moo.compile({
     NULL: /null\b/,
 })
 function factory() { return lexer.clone() }
-factory.specifier = function(name) {
-  return {type: name}
+factory.has = function(name) {
+  return lexer.groups.find(function(group) {
+    return group.tokenType === name;
+  });
 }
 %}
 
