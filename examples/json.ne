@@ -23,9 +23,6 @@ function factory() { return lexer.clone() }
 var SPACE = {type: 'SPACE'}
 var STRING = {type: 'STRING'}
 var NUMBER = {type: 'NUMBER'}
-var TRUE = {type: 'TRUE'}
-var FALSE = {type: 'FALSE'}
-var NULL = {type: 'NULL'}
 %}
 
 @lexer factory
@@ -43,9 +40,9 @@ value ->
     | array {% id %}
     | number {% id %}
     | string {% id %}
-    | %TRUE {% function(d) { return true; } %}
-    | %FALSE {% function(d) { return false; } %}
-    | %NULL {% function(d) { return null; } %}
+    | "true" {% function(d) { return true; } %}
+    | "false" {% function(d) { return false; } %}
+    | "null" {% function(d) { return null; } %}
 
 number -> %NUMBER {% function(d) { return parseFloat(d[0].value) } %}
 
