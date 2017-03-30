@@ -18,15 +18,15 @@ var lexer = moo.compile({
     FALSE: /false\b/,
     NULL: /null\b/,
 })
-function factory() { return lexer.clone() }
-factory.has = function(name) {
+// TODO add has() [or similar] to moo
+lexer.has = function(name) {
   return lexer.groups.find(function(group) {
     return group.tokenType === name;
   });
 }
 %}
 
-@lexer factory
+@lexer lexer
 
 json -> _ (object | array) _ {% function(d) { return d[1][0]; } %}
 
