@@ -168,10 +168,21 @@ describe('Parser', function() {
       )
     })
 
-    // TODO: save/restore
-
-    /*
     var tosh = compile(read("examples/tosh.ne"));
+
+    it('can save state', function() {
+        let first = "say 'hello'";
+        let second = " for 2 secs";
+        let p = new nearley.Parser(tosh, { keepHistory: true });
+        p.feed(first);
+        p.current.should.equal(11)
+        p.table.length.should.equal(12)
+        var col = p.save();
+        col.index.should.equal(11)
+        col.lexerState.index.should.equal(first.length)
+    });
+
+    // TODO: restore state
 
     it('can rewind', function() {
         let first = "say 'hello'";
@@ -184,6 +195,7 @@ describe('Parser', function() {
         p.feed(second);
 
         p.rewind(first.length);
+
         p.current.should.equal(11)
         p.table.length.should.equal(12)
 
@@ -194,6 +206,7 @@ describe('Parser', function() {
         let p = new nearley.Parser(tosh, {});
         p.rewind.should.throw();
     })
-    */
+
+    // moo save/restore
 
 });
